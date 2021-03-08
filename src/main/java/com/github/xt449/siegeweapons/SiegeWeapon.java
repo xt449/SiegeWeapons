@@ -35,66 +35,50 @@ public class SiegeWeapon {
 	}
 
 	public void remove() {
-		Bukkit.broadcastMessage("Siege Weapon removed!");
-
 		controlsDisplayArmorStand.remove();
 
 		map.remove(location);
 	}
 
 	public void destroy() {
-		Bukkit.broadcastMessage("Siege Weapon destroyed!");
-
 		remove();
 
 		location.getBlock().setType(Material.AIR);
 	}
 
 	public boolean incrementPower() {
-		Bukkit.broadcastMessage("incrementPower");
-		Bukkit.broadcastMessage("-> " + (controls & 0b1111));
 		if((controls & 0b1111) == 0b1111) {
 			return false;
 		}
 
 		controls += 1;
-		Bukkit.broadcastMessage("-> " + (controls & 0b1111));
 		return true;
 	}
 
 	public boolean decrementPower() {
-		Bukkit.broadcastMessage("decrementPower");
-		Bukkit.broadcastMessage("-> " + (controls & 0b1111));
 		if((controls & 0b1111) == 0b0000) {
 			return false;
 		}
 
 		controls -= 1;
-		Bukkit.broadcastMessage("-> " + (controls & 0b1111));
 		return true;
 	}
 
 	public boolean incrementAngle() {
-		Bukkit.broadcastMessage("incrementAngle");
-		Bukkit.broadcastMessage("-> " + (controls >>> 4));
 		if((controls >>> 4) == 0b1111) {
 			return false;
 		}
 
 		controls += 16;
-		Bukkit.broadcastMessage("-> " + (controls >>> 4));
 		return true;
 	}
 
 	public boolean decrementAngle() {
-		Bukkit.broadcastMessage("decrementAngle");
-		Bukkit.broadcastMessage("-> " + (controls >>> 4));
 		if((controls >>> 4) == 0b0000) {
 			return false;
 		}
 
 		controls -= 16;
-		Bukkit.broadcastMessage("-> " + (controls >>> 4));
 		return true;
 	}
 
@@ -108,8 +92,6 @@ public class SiegeWeapon {
 	}
 
 	public void updateControlsDisplay() {
-		Bukkit.broadcastMessage("Power: " + getPower() + " Angle: " + (controls >>> 4));
-
 		final Location bottomLeft = location.getLocation().add(DisplayArmorStand.OFFSET_BLOCK_X, DisplayArmorStand.OFFSET_BLOCK_Y, DisplayArmorStand.OFFSET_BLOCK_Z);
 		switch(direction) {
 			case NORTH:
@@ -189,8 +171,6 @@ public class SiegeWeapon {
 					velocity.add(new Vector(getPower() / -12F, getPower() / 10F, getAngle() / -8F));
 					break;
 			}
-
-			Bukkit.broadcastMessage("weight: " + weight + "\nexplosive: " + explosive + "\nfire: " + fire);
 
 			projectile.setVelocity(velocity);
 			projectile.setDropItem(true);

@@ -130,7 +130,5 @@ public final class PlayerListener implements Listener {
 				}
 			}
 		}
-
-		Bukkit.broadcastMessage("Siege Weapon was exploded at " + event.getBlock().getLocation());
 	}
 }
