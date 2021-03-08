@@ -8,7 +8,7 @@ import org.bukkit.util.EulerAngle;
 /**
  * @author Jonathan Talcott (xt449 / BinaryBanana)
  */
-public class DisplayArmorStand {
+public abstract class DisplayArmorStand {
 
 	private static final float RIGHTARM_X = 75.0f;
 	private static final float RIGHTARM_Y = 0.0f;

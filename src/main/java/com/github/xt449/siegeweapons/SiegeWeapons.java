@@ -17,7 +17,7 @@ public final class SiegeWeapons extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
-		Bukkit.getPluginManager().registerEvents(new BlockListener(), this);
+		Bukkit.getPluginManager().registerEvents(new EntityListener(), this);
 	}
 
 	@Override

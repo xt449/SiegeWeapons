@@ -152,47 +152,53 @@ public class SiegeWeapon {
 		boolean explosive = false;
 		boolean fire = false;
 
-		for(int i = 0; i < items.length; i++) {
-			if(items[i] == null) {
-				continue;
+		if(inventory.contains(Material.STONE)) {
+			for(int i = 0; i < items.length; i++) {
+				if(items[i] == null) {
+					continue;
+				}
+				if(items[i].getType() == Material.STONE) {
+					weight += items[i].getAmount();
+					items[i].setAmount(0);
+				} else if(!explosive && items[i].getType() == Material.TNT) {
+					explosive = true;
+					items[i].setAmount(items[i].getAmount() - 1);
+				} else if(!fire && items[i].getType() == Material.LAVA_BUCKET) {
+					fire = true;
+					items[i].setType(Material.BUCKET);
+				}
 			}
-			if(items[i].getType() == Material.STONE) {
-				weight += items[i].getAmount();
-				items[i].setAmount(0);
-			} else if(!explosive && items[i].getType() == Material.TNT) {
-				explosive = true;
-				items[i].setAmount(items[i].getAmount() - 1);
-			} else if(!fire && items[i].getType() == Material.LAVA_BUCKET) {
-				fire = true;
-				items[i].setType(Material.BUCKET);
+
+			final FallingBlock projectile = block.getWorld().spawnFallingBlock(block.getLocation().add(0.5, 0.5, 0.5), Bukkit.createBlockData(Material.BLACKSTONE));
+			projectile.setMetadata(PROJECTILE_WEIGHT_META, new FixedMetadataValue(SiegeWeapons.instance, weight));
+			projectile.setMetadata(PROJECTILE_EXPLOSIVE_META, new FixedMetadataValue(SiegeWeapons.instance, explosive));
+			projectile.setMetadata(PROJECTILE_FIRE_META, new FixedMetadataValue(SiegeWeapons.instance, fire));
+			final Vector velocity = new Vector(direction.modX, 0.5, direction.modZ);
+
+			switch(direction) {
+				case NORTH:
+					velocity.add(new Vector(getAngle() / 8F, getPower() / 10F, getPower() / -12F));
+					break;
+				case EAST:
+					velocity.add(new Vector(getPower() / 12F, getPower() / 10F, getAngle() / 8F));
+					break;
+				case SOUTH:
+					velocity.add(new Vector(getAngle() / -8F, getPower() / 10F, getPower() / 12F));
+					break;
+				case WEST:
+					velocity.add(new Vector(getPower() / -12F, getPower() / 10F, getAngle() / -8F));
+					break;
 			}
+
+			Bukkit.broadcastMessage("weight: " + weight + "\nexplosive: " + explosive + "\nfire: " + fire);
+
+			projectile.setVelocity(velocity);
+			projectile.setDropItem(true);
+			projectile.setHurtEntities(true);
 		}
-
-		final FallingBlock projectile = block.getWorld().spawnFallingBlock(block.getLocation().add(0.5, 0.5, 0.5), Bukkit.createBlockData(Material.BLACKSTONE));
-		projectile.setMetadata("siegeweapons.projecile.weight", new FixedMetadataValue(SiegeWeapons.instance, weight));
-		projectile.setMetadata("siegeweapons.projecile.explosive", new FixedMetadataValue(SiegeWeapons.instance, explosive));
-		projectile.setMetadata("siegeweapons.projecile.fire", new FixedMetadataValue(SiegeWeapons.instance, fire));
-		final Vector velocity = new Vector(direction.modX, 0.5, direction.modZ);
-
-		switch(direction) {
-			case NORTH:
-				velocity.add(new Vector(getAngle() / 8F, getPower() / 10F, getPower() / -12F));
-				break;
-			case EAST:
-				velocity.add(new Vector(getPower() / 12F, getPower() / 10F, getAngle() / 8F));
-				break;
-			case SOUTH:
-				velocity.add(new Vector(getAngle() / -8F, getPower() / 10F, getPower() / 12F));
-				break;
-			case WEST:
-				velocity.add(new Vector(getPower() / -12F, getPower() / 10F, getAngle() / -8F));
-				break;
-		}
-
-		Bukkit.broadcastMessage("weight: " + weight + "\nexplosive: " + explosive + "\nfire: " + fire);
-
-		projectile.setVelocity(velocity);
-		projectile.setDropItem(false);
-		projectile.setHurtEntities(true);
 	}
+
+	static final String PROJECTILE_WEIGHT_META = "siegeweapons.projectile.weight";
+	static final String PROJECTILE_EXPLOSIVE_META = "siegeweapons.projectile.explosive";
+	static final String PROJECTILE_FIRE_META = "siegeweapons.projectile.fire";
 }

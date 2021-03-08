@@ -20,7 +20,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 /**
  * @author Jonathan Talcott (xt449 / BinaryBanana)
  */
-public class PlayerListener implements Listener {
+public final class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	private void onPlayerInteract(PlayerInteractEvent event) {
