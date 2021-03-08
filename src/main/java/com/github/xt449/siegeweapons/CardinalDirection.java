@@ -61,6 +61,21 @@ public enum CardinalDirection {
 		return this;
 	}
 
+	public BlockFace toBlockFace() {
+		switch(this) {
+			case NORTH:
+				return BlockFace.NORTH;
+			case EAST:
+				return BlockFace.EAST;
+			case SOUTH:
+				return BlockFace.SOUTH;
+			case WEST:
+				return BlockFace.WEST;
+		}
+
+		return BlockFace.SELF;
+	}
+
 	public static CardinalDirection getFromBlockFace(BlockFace face) {
 		switch(face) {
 			case NORTH:

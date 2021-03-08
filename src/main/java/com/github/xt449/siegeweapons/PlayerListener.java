@@ -4,16 +4,11 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Directional;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockExplodeEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 /**
@@ -72,58 +67,6 @@ public final class PlayerListener implements Listener {
 							}
 						}
 					}
-				}
-			}
-		}
-	}
-
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-	private void onBlockPlace(BlockPlaceEvent event) {
-		final Block block = event.getBlock();
-
-		if(block.getType() == Material.DISPENSER) {
-			final CardinalDirection direction = CardinalDirection.getFromBlockFace(((Directional) block.getBlockData()).getFacing());
-			if(direction == null) {
-				return;
-			}
-
-			block.getWorld().spawn(block.getLocation(), ArmorStand.class, armorStand -> {
-				DisplayArmorStand.simpleSetup(armorStand);
-
-				final BlockLocation blockLocation = BlockLocation.getFromBlock(block);
-				final SiegeWeapon siegeWeapon = new SiegeWeapon(direction, blockLocation, armorStand);
-
-				SiegeWeapon.map.put(blockLocation, siegeWeapon);
-				siegeWeapon.updateControlsDisplay();
-			});
-		}
-	}
-
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-	private void onBlockBreak(BlockBreakEvent event) {
-		final Block block = event.getBlock();
-
-		if(block.getType() == Material.DISPENSER) {
-			if(block.getType() == Material.DISPENSER) {
-				final SiegeWeapon siegeWeapon = SiegeWeapon.map.get(BlockLocation.getFromBlock(block));
-
-				if(siegeWeapon != null) {
-					siegeWeapon.remove();
-				}
-			}
-		}
-	}
-
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-	private void onBlockExplode(BlockExplodeEvent event) {
-		final Block block = event.getBlock();
-
-		if(block.getType() == Material.DISPENSER) {
-			if(block.getType() == Material.DISPENSER) {
-				final SiegeWeapon siegeWeapon = SiegeWeapon.map.get(BlockLocation.getFromBlock(block));
-
-				if(siegeWeapon != null) {
-					siegeWeapon.remove();
 				}
 			}
 		}
