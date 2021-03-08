@@ -1,6 +1,5 @@
 package com.github.xt449.siegeweapons;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
