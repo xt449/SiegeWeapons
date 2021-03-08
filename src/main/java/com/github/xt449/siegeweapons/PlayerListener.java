@@ -31,6 +31,8 @@ public final class PlayerListener implements Listener {
 						final SiegeWeapon siegeWeapon = SiegeWeapon.map.get(BlockLocation.getFromBlock(block));
 
 						if(siegeWeapon != null) {
+							event.setCancelled(true);
+
 							if(event.getMaterial() == Material.LEAD) {
 								if(event.getBlockFace() == BlockFace.UP) {
 									if(siegeWeapon.incrementPower()) {
@@ -39,7 +41,6 @@ public final class PlayerListener implements Listener {
 									} else {
 										block.getWorld().playSound(block.getLocation().add(0.5, 0.5, 0.5), Sound.BLOCK_WOODEN_BUTTON_CLICK_OFF, 1, 0F);
 									}
-									event.setCancelled(true);
 								} else {
 									final CardinalDirection face = CardinalDirection.getFromBlockFace(event.getBlockFace());
 
@@ -50,7 +51,6 @@ public final class PlayerListener implements Listener {
 										} else {
 											block.getWorld().playSound(block.getLocation().add(0.5, 0.5, 0.5), Sound.BLOCK_WOODEN_BUTTON_CLICK_OFF, 1, 0F);
 										}
-										event.setCancelled(true);
 									} else if(face == siegeWeapon.direction.getLeft()) {
 										if(siegeWeapon.decrementAngle()) {
 											block.getWorld().playSound(block.getLocation().add(0.5, 0.5, 0.5), Sound.BLOCK_DISPENSER_FAIL, 1, 1.5F);
@@ -58,7 +58,6 @@ public final class PlayerListener implements Listener {
 										} else {
 											block.getWorld().playSound(block.getLocation().add(0.5, 0.5, 0.5), Sound.BLOCK_WOODEN_BUTTON_CLICK_OFF, 1, 0F);
 										}
-										event.setCancelled(true);
 									} else if(face == siegeWeapon.direction.getRight()) {
 										if(siegeWeapon.incrementAngle()) {
 											block.getWorld().playSound(block.getLocation().add(0.5, 0.5, 0.5), Sound.BLOCK_DISPENSER_FAIL, 1, 1.5F);
@@ -66,7 +65,6 @@ public final class PlayerListener implements Listener {
 										} else {
 											block.getWorld().playSound(block.getLocation().add(0.5, 0.5, 0.5), Sound.BLOCK_WOODEN_BUTTON_CLICK_OFF, 1, 0F);
 										}
-										event.setCancelled(true);
 									}
 								}
 							} else if(event.getMaterial() == Material.LEVER) {

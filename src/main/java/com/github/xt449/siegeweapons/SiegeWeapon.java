@@ -130,7 +130,7 @@ public class SiegeWeapon {
 		final Inventory inventory = ((Container) block.getState()).getInventory();
 		final ItemStack[] items = inventory.getContents();
 
-		int weight = 0;
+		boolean stone = false;
 		boolean explosive = false;
 		boolean fire = false;
 
@@ -139,9 +139,9 @@ public class SiegeWeapon {
 				if(items[i] == null) {
 					continue;
 				}
-				if(items[i].getType() == Material.STONE) {
-					weight += items[i].getAmount();
-					items[i].setAmount(0);
+				if(!stone && items[i].getType() == Material.STONE) {
+					stone = true;
+					items[i].setAmount(items[i].getAmount() - 1);
 				} else if(!explosive && items[i].getType() == Material.TNT) {
 					explosive = true;
 					items[i].setAmount(items[i].getAmount() - 1);
@@ -152,7 +152,8 @@ public class SiegeWeapon {
 			}
 
 			final FallingBlock projectile = block.getWorld().spawnFallingBlock(block.getLocation().add(0.5, 0.5, 0.5), Bukkit.createBlockData(Material.BLACKSTONE));
-			projectile.setMetadata(PROJECTILE_WEIGHT_META, new FixedMetadataValue(SiegeWeapons.instance, weight));
+			projectile.setMetadata(PROJECTILE_META, new FixedMetadataValue(SiegeWeapons.instance, null));
+//			projectile.setMetadata(PROJECTILE_WEIGHT_META, new FixedMetadataValue(SiegeWeapons.instance, weight));
 			projectile.setMetadata(PROJECTILE_EXPLOSIVE_META, new FixedMetadataValue(SiegeWeapons.instance, explosive));
 			projectile.setMetadata(PROJECTILE_FIRE_META, new FixedMetadataValue(SiegeWeapons.instance, fire));
 			final Vector velocity = new Vector(direction.modX, 0.5, direction.modZ);
@@ -178,7 +179,8 @@ public class SiegeWeapon {
 		}
 	}
 
-	static final String PROJECTILE_WEIGHT_META = "siegeweapons.projectile.weight";
+	static final String PROJECTILE_META = "siegeweapons.projectile";
+	//	static final String PROJECTILE_WEIGHT_META = "siegeweapons.projectile.weight";
 	static final String PROJECTILE_EXPLOSIVE_META = "siegeweapons.projectile.explosive";
 	static final String PROJECTILE_FIRE_META = "siegeweapons.projectile.fire";
 }

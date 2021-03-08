@@ -7,9 +7,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDropItemEvent;
-import org.bukkit.metadata.MetadataValue;
-
-import java.util.List;
 
 /**
  * @author Jonathan Talcott (xt449 / BinaryBanana)
@@ -20,9 +17,8 @@ public final class EntityListener implements Listener {
 	private void onEntityChangeBlock(EntityChangeBlockEvent event) {
 		if(event.getEntityType() == EntityType.FALLING_BLOCK) {
 			final Entity projectile = event.getEntity();
-			final List<MetadataValue> weightMeta = projectile.getMetadata(SiegeWeapon.PROJECTILE_WEIGHT_META);
 
-			if(weightMeta.size() > 0) {
+			if(projectile.getMetadata(SiegeWeapon.PROJECTILE_META).size() > 0) {
 				event.setCancelled(true);
 
 				projectileHit(projectile);
@@ -34,9 +30,8 @@ public final class EntityListener implements Listener {
 	private void onEntityDropItem(EntityDropItemEvent event) {
 		if(event.getEntityType() == EntityType.FALLING_BLOCK) {
 			final Entity projectile = event.getEntity();
-			final List<MetadataValue> weightMeta = projectile.getMetadata(SiegeWeapon.PROJECTILE_WEIGHT_META);
 
-			if(weightMeta.size() > 0) {
+			if(projectile.getMetadata(SiegeWeapon.PROJECTILE_META).size() > 0) {
 				event.setCancelled(true);
 
 				projectileHit(projectile);
